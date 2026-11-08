@@ -1,0 +1,31 @@
+widget "keyboard test" {
+  meta { owl: 10; description: "Manual keyboard regression checks for PR 263" }
+  size: 6x3
+  minSize: 6x3
+  page: 1
+  order: 0
+
+  state first = ""
+  state second = ""
+  state submitted = "nothing yet"
+
+  Column {
+    gap: 8
+    Text { text: "PR 263: keyboard test"; color: accent }
+    Input {
+      text: first
+      placeholder: "First field: type here"
+      height: 48
+      onChange: first = value
+      onSubmit: submitted = value
+    }
+    Input {
+      text: second
+      placeholder: "Second field: switch here"
+      height: 48
+      onChange: second = value
+      onSubmit: submitted = value
+    }
+    Text { text: "Last submit: ${submitted}"; style: muted }
+  }
+}

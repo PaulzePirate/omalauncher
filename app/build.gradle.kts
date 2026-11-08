@@ -60,7 +60,11 @@ android {
 
     buildTypes {
         // en-XA and ar-XB: text that stays plain English or left-to-right there isn't in res/ yet.
-        debug { isPseudoLocalesEnabled = true }
+        debug {
+            isPseudoLocalesEnabled = true
+            applicationIdSuffix = ".keyboardtest"
+            versionNameSuffix = "-pr263-test"
+        }
         release {
             // Shrinks the APK and drops what the app doesn't use, like the owl module's unused parts.
             isMinifyEnabled = true
