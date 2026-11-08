@@ -102,7 +102,7 @@ dependencies {
     testImplementation(libs.junit)
     testImplementation("org.robolectric:robolectric:4.17")
     testImplementation("org.jetbrains.compose.ui:ui-test-junit4:1.12.2")
-    debugImplementation("org.jetbrains.compose.ui:ui-test-manifest:1.12.2")
+    debugImplementation("androidx.compose.ui:ui-test-manifest:1.12.1")
     // android.jar only has stubs of org.json.
     testImplementation(libs.org.json)
 }
