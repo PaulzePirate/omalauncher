@@ -43,8 +43,9 @@ class HomeKeyboardDeviceTest {
         val home = LauncherData.homeDir(context).also { it.mkdirs() }
         File(home, "layout.toml").writeText("""
             columns = 6
-            [pages.1]
-            items = [{ widget = "00-regression.owl", x = 0, y = 4, w = 6, h = 3 }]
+            version = 1
+            [[page]]
+            tiles = [{ widget = "00-regression.owl", x = 0, y = 4, w = 6, h = 3 }]
         """.trimIndent())
         scenario = ActivityScenario.launch(MainActivity::class.java)
         scenario.onActivity { activity = it }

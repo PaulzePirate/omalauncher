@@ -301,6 +301,7 @@ fun HomeScreen(
     // A widget's text field the same: its keyboard closed without it losing focus.
     LaunchedEffect(terminals) {
         snapshotFlow { ime.getBottom(density) > 0 }.collect { shown ->
+            if (dev.omalauncher.BuildConfig.DEBUG) android.util.Log.d("KeyboardRegression", "ime shown=$shown field=${terminals.field?.let(System::identityHashCode)}")
             if (!shown && (terminals.keyboard?.wanted == true || terminals.field != null)) terminals.deactivate()
         }
     }

@@ -187,6 +187,7 @@ class TerminalTiles(
     }
 
     fun deactivate() {
+        if (dev.omalauncher.BuildConfig.DEBUG) android.util.Log.d("KeyboardRegression", "deactivate field=${field?.let(System::identityHashCode)} tile=$tile")
         if (active != null) {
             // Keys still down, like the Super of Super+Esc, would stay held for the terminal.
             runtime.keyboard.releaseHeld()
@@ -201,6 +202,7 @@ class TerminalTiles(
 
     /** [f] took focus, and with it the keyboard. */
     fun focused(f: TileField) {
+        if (dev.omalauncher.BuildConfig.DEBUG) android.util.Log.d("KeyboardRegression", "focused field=${System.identityHashCode(f)} previous=${field?.let(System::identityHashCode)} tile=$tile")
         if (active != null) wm.focus(null)
         keyboard?.hide()
         tile = null
@@ -211,6 +213,7 @@ class TerminalTiles(
 
     /** [f] lost focus. */
     fun unfocused(f: TileField) {
+        if (dev.omalauncher.BuildConfig.DEBUG) android.util.Log.d("KeyboardRegression", "unfocused field=${System.identityHashCode(f)} current=${field?.let(System::identityHashCode)}")
         if (field === f) field = null
     }
 
@@ -243,6 +246,7 @@ class TerminalTiles(
      * not only its terminal: a widget's own keys beside its Terminal press keys in it rather than taking the keyboard away.
      */
     fun pressAt(p: Offset) {
+        if (dev.omalauncher.BuildConfig.DEBUG) android.util.Log.d("KeyboardRegression", "press p=$p field=${field?.let(System::identityHashCode)} tile=$tile lift=$lift")
         val bounds = typingBounds(field != null, tile, surfaceBounds) ?: return
         if (extraKeys?.contains(p) == true) return
         if (!bounds.translate(0f, -lift).contains(p)) deactivate()

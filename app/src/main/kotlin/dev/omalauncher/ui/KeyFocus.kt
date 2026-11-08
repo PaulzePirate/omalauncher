@@ -343,6 +343,7 @@ fun Modifier.passesKeys(vararg to: FocusRequester): Modifier {
         // in the same frame, so it can take focus once that's done.
         view.post {
             if (passing[root] == at) passing -= root
+            if (dev.omalauncher.BuildConfig.DEBUG) android.util.Log.d("KeyboardRegression", "focus recovery dropped=${dropped[root]} at=$at")
             if ((dropped[root] ?: -1) >= at && targets.none { it.requestFocus() }) waiting[root] = true
         }
     }
