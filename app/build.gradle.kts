@@ -45,7 +45,10 @@ android {
     bundle { language { enableSplit = false } }
 
     // android.util.Log and friends are no-ops in JVM tests instead of throwing.
-    testOptions { unitTests.isReturnDefaultValues = true }
+    testOptions {
+        unitTests.isReturnDefaultValues = true
+        unitTests.isIncludeAndroidResources = true
+    }
 
     signingConfigs {
         create("release") {
@@ -97,6 +100,9 @@ dependencies {
     implementation(libs.zxing.core)
     implementation(project(":owl"))
     testImplementation(libs.junit)
+    testImplementation("org.robolectric:robolectric:4.17")
+    testImplementation("org.jetbrains.compose.ui:ui-test-junit4:1.12.2")
+    debugImplementation("org.jetbrains.compose.ui:ui-test-manifest:1.12.2")
     // android.jar only has stubs of org.json.
     testImplementation(libs.org.json)
 }
