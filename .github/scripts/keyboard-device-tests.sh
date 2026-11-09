@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 set +e
+# A cold-boot Pixel Launcher ANR dialog can otherwise sit over the test activity.
+# This affects only the disposable emulator, before the launcher under test starts.
+adb shell am force-stop com.google.android.apps.nexuslauncher
 ./gradlew :app:connectedDebugAndroidTest -PkeyboardTestAbi=x86_64
 keyboard_test_status=$?
 adb logcat -d > keyboard-logcat.txt
