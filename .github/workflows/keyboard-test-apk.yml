@@ -35,12 +35,12 @@ jobs:
       - name: Package APK and checksum
         run: |
           mkdir -p test-apk
-          cp app/build/outputs/apk/debug/app-debug.apk test-apk/omalauncher-pr263-keyboard-test.apk
+          cp app/build/outputs/apk/debug/app-debug.apk test-apk/omalauncher-pr263-keyboard-test2.apk
           cd test-apk
-          sha256sum omalauncher-pr263-keyboard-test.apk > SHA256SUMS
+          sha256sum omalauncher-pr263-keyboard-test2.apk > SHA256SUMS
       - uses: actions/upload-artifact@v4
         with:
-          name: omalauncher-pr263-keyboard-test
+          name: omalauncher-pr263-keyboard-test2
           path: test-apk/
           retention-days: 14
       - name: Upload test and lint reports
@@ -92,3 +92,6 @@ jobs:
             app/build/outputs/androidTest-results/
             keyboard-logcat.txt
             keyboard-screen.png
+            keyboard-futo-logcat.txt
+            keyboard-futo-screen.png
+            keyboard-aosp/

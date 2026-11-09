@@ -88,9 +88,11 @@ class HomeKeyboardDeviceTest {
         first().performTouchInput { click() }
         first().performTextInput("first")
         compose.waitUntil(5000) { keyboardVisible() }
+        Thread.sleep(500) // Switch only after the first field's keyboard animation has settled.
         second().performTouchInput { click() }
         second().performTextInput("second")
         second().assertIsFocused()
+        Thread.sleep(500)
         tapOutsideAndCheckItStaysClosed()
     }
 }
