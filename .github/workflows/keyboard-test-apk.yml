@@ -29,7 +29,7 @@ jobs:
       - name: Build Linux runtime
         run: scripts/fetch-proot.sh
       - name: Unit tests
-        run: ./gradlew :owl:test :app:testDebugUnitTest
+        run: ./gradlew :owl:test :app:testDebugUnitTest :owl:owlJar
       - name: Build and lint APK
         run: ./gradlew :app:assembleDebug :app:lintDebug
       - name: Package APK and checksum
