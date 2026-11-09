@@ -15,8 +15,14 @@ if [ "$keyboard_test_status" -ne 0 ]; then exit "$keyboard_test_status"; fi
 # Repeat with the user's keyboard; this changes only the disposable emulator.
 curl -fL --retry 3 https://github.com/futo-org/android-keyboard/releases/download/0.1.30/keyboard-0.1.30.apk -o /tmp/futo-keyboard.apk || exit 1
 adb install -r /tmp/futo-keyboard.apk || exit 1
-futo_ime=$(adb shell ime list -a -s | tr -d '\r' | awk '/org.futo/ { print; exit }')
-if [ -z "$futo_ime" ]; then adb shell ime list -a -s; echo 'FUTO input method not found'; exit 1; fi
+# Package installation returns before InputMethodManager processes PACKAGE_ADDED.
+futo_ime=""
+for ((keyboard_attempt = 0; keyboard_attempt < 20; keyboard_attempt++)); do
+    futo_ime=$(adb shell ime list -a -s | tr -d '\r' | awk '/org.futo/ { print; exit }')
+    if [ -n "$futo_ime" ]; then break; fi
+    sleep 1
+done
+if [ -z "$futo_ime" ]; then adb shell ime list -a -s; echo 'FUTO did not register within 20 seconds'; exit 1; fi
 adb shell ime enable "$futo_ime" || exit 1
 adb shell ime set "$futo_ime" || exit 1
 adb logcat -c
