@@ -332,6 +332,7 @@ fun focusFromKey() = keyDownAt > 0 && SystemClock.uptimeMillis() - keyDownAt < 5
 @Composable
 fun Modifier.passesKeys(vararg to: FocusRequester): Modifier {
     val view = LocalView.current
+    val inputMode = LocalInputModeManager.current
     val had = remember { booleanArrayOf(false) }
     val targets = to.toList()
     val pass = remember { arrayOf<() -> Unit>({}) }
@@ -343,8 +344,10 @@ fun Modifier.passesKeys(vararg to: FocusRequester): Modifier {
         // in the same frame, so it can take focus once that's done.
         view.post {
             if (passing[root] == at) passing -= root
-            if (dev.omalauncher.BuildConfig.DEBUG) android.util.Log.d("KeyboardRegression", "focus recovery dropped=${dropped[root]} at=$at")
-            if ((dropped[root] ?: -1) >= at && targets.none { it.requestFocus() }) waiting[root] = true
+            if (dev.omalauncher.BuildConfig.DEBUG) android.util.Log.d("KeyboardRegression", "focus recovery mode=${inputMode.inputMode} dropped=${dropped[root]} at=$at")
+            // Touch dismissal must leave the field unfocused, rather than opening the first Input again.
+            // Only hardware-key navigation needs a replacement target when its old one goes away.
+            if (inputMode.inputMode == InputMode.Keyboard && (dropped[root] ?: -1) >= at && targets.none { it.requestFocus() }) waiting[root] = true
         }
     }
     DisposableEffect(Unit) { onDispose { if (had[0]) pass[0]() } }

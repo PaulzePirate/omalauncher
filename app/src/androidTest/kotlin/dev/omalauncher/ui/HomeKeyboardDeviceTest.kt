@@ -49,7 +49,7 @@ class HomeKeyboardDeviceTest {
         """.trimIndent())
         scenario = ActivityScenario.launch(MainActivity::class.java)
         scenario.onActivity { activity = it }
-        compose.waitUntil(15000) { compose.onAllNodesWithText("Regression first").fetchSemanticsNodes().isNotEmpty() }
+        compose.waitUntil(15000) { compose.onAllNodes(hasSetTextAction()).fetchSemanticsNodes().size >= 2 }
     }
 
     @After fun closeHome() { if (::scenario.isInitialized) scenario.close() }
