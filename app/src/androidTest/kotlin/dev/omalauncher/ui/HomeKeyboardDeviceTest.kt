@@ -89,10 +89,12 @@ class HomeKeyboardDeviceTest {
         first().performTextInput("first")
         compose.waitUntil(5000) { keyboardVisible() }
         Thread.sleep(500) // Switch only after the first field's keyboard animation has settled.
+        val firstTop = first().fetchSemanticsNode().boundsInRoot.top
         second().performTouchInput { click() }
         second().performTextInput("second")
         second().assertIsFocused()
         Thread.sleep(500)
+        org.junit.Assert.assertEquals("Switching fields must keep their tile above the keyboard", firstTop, first().fetchSemanticsNode().boundsInRoot.top, 2f)
         tapOutsideAndCheckItStaysClosed()
     }
 }
